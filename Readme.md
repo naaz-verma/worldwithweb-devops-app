@@ -1,5 +1,5 @@
 # worldwithweb-devops-app
-#branch created by naaz
+
 A simple FastAPI app for DevOps hands-on demo.
 
 ```bash
