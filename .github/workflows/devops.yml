@@ -45,4 +45,5 @@ jobs:
             git pull origin main
             docker build -t worldwithweb-devops-app .
             docker stop worldwithweb-devops-app || true && docker rm worldwithweb-devops-app || true
+            fuser -k 8000/tcp || true
             docker run -d --name worldwithweb-devops-app -p 8000:8000 worldwithweb-devops-app
