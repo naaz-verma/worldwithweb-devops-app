@@ -1,4 +1,4 @@
-name: CI for DevOps App
+name: CI/CD for DevOps App
 
 on:
   push:
@@ -11,20 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - name: Run FastAPI App (Test Boot)
-      run: |
-        nohup uvicorn main:app --port 8000 &
-        sleep 5
-        curl -f http://localhost:8000 || exit 1
+      - name: Run FastAPI App (Test Boot)
+        run: |
+          nohup uvicorn main:app --port 8000 &
+          sleep 5
+          curl -f http://localhost:8000 || exit 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/worldwithweb-devops-app
+            git pull origin main
+            docker build -t worldwithweb-devops-app .
+            docker stop devops-app || true && docker rm devops-app || true
+            docker run -d --name devops-app -p 8000:8000 worldwithweb-devops-app
