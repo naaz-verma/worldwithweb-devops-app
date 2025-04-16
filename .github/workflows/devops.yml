@@ -44,5 +44,5 @@ jobs:
             cd /home/ec2-user/worldwithweb-devops-app
             git pull origin main
             docker build -t worldwithweb-devops-app .
-            docker stop devops-app || true && docker rm devops-app || true
-            docker run -d --name devops-app -p 8000:8000 worldwithweb-devops-app
+            docker stop worldwithweb-devops-app || true && docker rm worldwithweb-devops-app || true
+            docker run -d --name worldwithweb-devops-app -p 8000:8000 worldwithweb-devops-app
