@@ -1,10 +1,20 @@
-# Define variables here if you want to make them configurable
 variable "region" {
-  description = "AWS region to deploy resources"
-  type =  string
+  type = string
+}
+
+variable "instance_type" {
+  type = string
+}
+
+variable "key_name" {
+  description = "Your EC2 Key Pair name (must exist in AWS)"
+  type        = string
+}
+
+variable "project" {
+  default = "fastapi-k8s"
 }
 
 variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
-  type        = string
+  type = string
 }

@@ -1,0 +1,45 @@
+resource "aws_security_group" "fastapi_sg" {
+  name        = "${var.project}-sg"
+  description = "Allow SSH and app access"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_instance" "fastapi_ec2" {
+  ami           = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  security_groups = [aws_security_group.fastapi_sg.name]
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              amazon-linux-extras install docker -y
+              service docker start
+              usermod -a -G docker ec2-user
+              docker run -d -p 8000:8000 ghcr.io/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME:latest
+              EOF
+
+  tags = {
+    Name = "${var.project}-instance"
+  }
+}
