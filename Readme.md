@@ -90,3 +90,4 @@ EC2_USER	ubuntu (or ec2-user if using Amazon Linux)
 
 #Create secrets in Github 
 Settings -> secrets and variables -> Actions -> Repository Secrets
+
