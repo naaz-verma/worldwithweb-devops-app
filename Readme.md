@@ -26,16 +26,6 @@ git push origin develop
 git push
 git pull
 
-#run terraform using
-Initialize Terraform - to initialize the working directory containing Terraform configuration files:
-terraform init 
-
-Review the Plan to see the changes Terraform will make to your AWS environment.:
-terraform plan 
-
-Apply the Configuration to provision the resources. Terraform will ask for confirmation before proceeding with the creation of resources:
-terraform apply 
-
 #AWS hosting
 Create EC2 instance 
 Amazon Linux t2.micro OS and AMI
@@ -90,4 +80,15 @@ EC2_USER	ubuntu (or ec2-user if using Amazon Linux)
 
 #Create secrets in Github 
 Settings -> secrets and variables -> Actions -> Repository Secrets
+
+#Upload docker image to ghcr
+make changes to the Ci/CD pipeline to push to ghcr
+Repo -> settings -> Actions -> general 
+Workflow permissions -> Check: Read and write permissions
+
+#Terraform 
+#folder for AWS infra
+#Create AWS access key and secret on console under IAM user
+#Add these to repo secrets 
+#terraform pipeline
 
