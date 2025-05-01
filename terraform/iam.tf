@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_role" {
-  name               = "ec2-role"
+  name               = "worldwithweb-ec2-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -15,7 +15,7 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 resource "aws_iam_policy" "ec2_secrets_policy" {
-  name        = "ec2-secrets-policy"
+  name        = "worldwithweb-ec2-secrets-policy"
   description = "Allows access to Secrets Manager"
   policy      = jsonencode({
     Version = "2012-10-17"
