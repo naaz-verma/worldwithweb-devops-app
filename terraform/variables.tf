@@ -12,7 +12,7 @@ variable "key_name" {
 }
 
 variable "project" {
-  default = "fastapi-k8s"
+  default = "worldwithweb-devops-app"
 }
 
 variable "ami_id" {
