@@ -1,3 +1,7 @@
+# Ignore all Terraform local cache, locks, and hidden dirs
 .terraform/
-.terraform.lock.hcl
-terrafrom.tfstate
+*.tfstate
+*.tfstate.backup
+*.terraform.lock.hcl
+crash.log
+*.exe
