@@ -25,9 +25,9 @@ resource "aws_security_group" "fastapi_sg" {
 }
 
 resource "aws_instance" "fastapi_ec2" {
-  ami           = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
-  instance_type = var.instance_type
-  key_name      = var.key_name
+  ami             = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
+  instance_type   = var.instance_type
+  key_name        = var.key_name
   security_groups = [aws_security_group.fastapi_sg.name]
 
   user_data = <<-EOF
