@@ -1,4 +1,4 @@
-resource "aws_security_group" "fastapi_sg" {
+resource "aws_security_group" "worldwithweb-devops-app_sg" {
   name        = "${var.project}-sg"
   description = "Allow SSH and app access"
 
@@ -24,11 +24,11 @@ resource "aws_security_group" "fastapi_sg" {
   }
 }
 
-resource "aws_instance" "fastapi_ec2" {
-  ami           = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  security_groups = [aws_security_group.fastapi_sg.name]
+resource "aws_instance" "worldwithweb-devops-app_ec2" {
+  ami             = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
+  instance_type   = var.instance_type
+  key_name        = var.key_name
+  security_groups = [aws_security_group.worldwithweb-devops-app_sg.name]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -36,7 +36,7 @@ resource "aws_instance" "fastapi_ec2" {
               amazon-linux-extras install docker -y
               service docker start
               usermod -a -G docker ec2-user
-              docker run -d -p 8000:8000 ghcr.io/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME:latest
+              docker run -d -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest .
               EOF
 
   tags = {
