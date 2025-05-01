@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 resource "aws_security_group" "worldwithweb-devops-app_sg" {
+=======
+resource "aws_security_group" "fastapi_sg" {
+>>>>>>> d437128955405d16ebd38f45ee63c4d277ca01a6
   name        = "${var.project}-sg"
   description = "Allow SSH and app access"
 
