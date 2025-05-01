@@ -33,10 +33,10 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/your-github-username/worldwithweb-devops-app:latest .
+        run: docker build -t ghcr.io/naaz-verma/worldwithweb-devops-app:latest .
 
       - name: Push Docker image to GHCR
-        run: docker push ghcr.io/your-github-username/worldwithweb-devops-app:latest
+        run: docker push ghcr.io/naaz-verma/worldwithweb-devops-app:latest
 
   deploy:
     needs: build
@@ -52,5 +52,5 @@ jobs:
           script: |
             docker stop worldwithweb-devops-app || true
             docker rm worldwithweb-devops-app || true
-            docker pull ghcr.io/your-github-username/worldwithweb-devops-app:latest
-            docker run -d --name worldwithweb-devops-app -p 8000:8000 ghcr.io/your-github-username/worldwithweb-devops-app:latest
+            docker pull ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+            docker run -d --name worldwithweb-devops-app -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest
