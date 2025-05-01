@@ -79,7 +79,7 @@ docker run -d -p 8000:8000 worldwithweb-devops-app
 #Visit: http://<your-ec2-public-ip>:8000
 
 #Secrets required for CI/CD on Github Actions
-EC2_SSH_KEY	Paste full PEM content
+EC2_SSH_KEY	Paste full PEM content(RSA key)
 EC2_HOST	<your-ec2-public-ip>
 EC2_USER	ubuntu (or ec2-user if using Amazon Linux)
 
