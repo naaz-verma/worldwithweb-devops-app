@@ -49,3 +49,5 @@ jobs:
       - name: Terraform Apply (conditional)
         if: github.event.inputs.auto_apply == 'true'
         run: terraform apply -auto-approve
+
+        
