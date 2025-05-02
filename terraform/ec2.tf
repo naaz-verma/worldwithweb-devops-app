@@ -36,8 +36,9 @@ resource "aws_instance" "worldwithweb-devops-app_ec2" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-              amazon-linux-extras install docker -y
-              service docker start
+              yum install -y docker
+              systemctl start docker
+              systemctl enable docker
               usermod -a -G docker ec2-user
               docker run -d -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest .
               EOF
