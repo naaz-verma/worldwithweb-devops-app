@@ -33,16 +33,24 @@ resource "aws_instance" "worldwithweb-devops-app_ec2" {
   key_name        = var.key_name
   security_groups = [aws_security_group.worldwithweb-devops-app_sg.name]
 
-  user_data = <<-EOF
+    user_data = <<-EOF
               #!/bin/bash
+              # Update & install Docker
               yum update -y
               amazon-linux-extras install docker -y
+              yum install -y docker
               systemctl start docker
               systemctl enable docker
               usermod -aG docker ec2-user
+
+              # Allow time for Docker group permissions
+              sleep 10
+
+              # Run the container
               docker pull ghcr.io/naaz-verma/worldwithweb-devops-app:latest
               docker run -d --name worldwithweb-devops-app -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest
-              EOF
+            EOF
+
 
   tags = {
     Name = "${var.project}-instance"
