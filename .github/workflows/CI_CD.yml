@@ -50,7 +50,9 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            sudo systemctl start docker || true
             docker stop worldwithweb-devops-app || true
             docker rm worldwithweb-devops-app || true
             docker pull ghcr.io/naaz-verma/worldwithweb-devops-app:latest
             docker run -d --name worldwithweb-devops-app -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+

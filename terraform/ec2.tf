@@ -1,7 +1,7 @@
 resource "aws_security_group" "worldwithweb-devops-app_sg" {
   name        = "${var.project}-sg"
   description = "Allow SSH and app access"
-
+  
   ingress {
     from_port   = 22
     to_port     = 22
@@ -24,20 +24,33 @@ resource "aws_security_group" "worldwithweb-devops-app_sg" {
   }
 }
 
+
+
+
 resource "aws_instance" "worldwithweb-devops-app_ec2" {
-  ami             = "ami-0c2b8ca1dad447f8a" # Amazon Linux 2 AMI (us-east-1)
+  ami             = var.ami_id # Amazon Linux 2 AMI 
   instance_type   = var.instance_type
   key_name        = var.key_name
   security_groups = [aws_security_group.worldwithweb-devops-app_sg.name]
 
-  user_data = <<-EOF
+    user_data = <<-EOF
               #!/bin/bash
+              # Update & install Docker
               yum update -y
               amazon-linux-extras install docker -y
-              service docker start
-              usermod -a -G docker ec2-user
-              docker run -d -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest .
-              EOF
+              yum install -y docker
+              systemctl start docker
+              systemctl enable docker
+              usermod -aG docker ec2-user
+
+              # Allow time for Docker group permissions
+              sleep 10
+
+              # Run the container
+              docker pull ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+              docker run -d --name worldwithweb-devops-app -p 8000:8000 ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+            EOF
+
 
   tags = {
     Name = "${var.project}-instance"
