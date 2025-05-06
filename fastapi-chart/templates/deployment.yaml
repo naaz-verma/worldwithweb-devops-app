@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fastapi-chart.fullname" . }}
+  labels:
+  {{ include "fastapi-chart.labels" . | toYaml | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+    {{ include "fastapi-chart.selectorLabels" . | toYaml | nindent 6 }}
+  template:
+    metadata:
+      labels:
+      {{ include "fastapi-chart.selectorLabels" . | toYaml | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP

@@ -98,3 +98,26 @@ git pull
  
  Apply the Configuration to provision the resources. Terraform will ask for confirmation before proceeding with the creation of resources:
  terraform apply 
+
+
+#kubernetes 
+install kubectl, minikube or docker desktop, helm 
+Then either create k8s folder for self written kubernetes files or create using helm chart \
+
+#k8s folder
+kubectl apply -f k8s/
+kubectl get pods
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+
+#To access app
+minikube service fastapi-service
+or 
+Docker Desktop:
+Open http://localhost:30080 (NodePort)
+
+#helm
+helm install fastapi-app ./fastapi-chart
+kubectl get pods
+kubectl get svc
+helm upgrade fastapi-app ./fastapi-chart
