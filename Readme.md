@@ -120,7 +120,7 @@ Open http://localhost:30080 (NodePort)
 
 #helm
 helm install fastapi-app ./fastapi-chart
-kubectl apply -f /fastapi-chart
+kubectl apply -f ./fastapi-chart
 kubectl get pods
 kubectl get svc
 helm upgrade fastapi-app ./fastapi-chart
