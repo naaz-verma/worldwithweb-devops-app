@@ -10,7 +10,9 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'jenkins-ansible',git credentialsId: 'github-token', url: 'https://github.com/naaz-verma/worldwithweb-devops-app.git'
+                git branch: 'jenkins-ansible',
+                credentialsId: 'github-token',
+                url: 'https://github.com/naaz-verma/worldwithweb-devops-app.git'
             }
         }
 
