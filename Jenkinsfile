@@ -4,7 +4,7 @@ pipeline {
     environment {
         EC2_HOST = "65.0.180.57"
         EC2_USER = "ec2-user"
-        PEM_KEY = credentials('ec2-pem-key')  // Upload this in Jenkins
+        PEM_KEY = credentials('ec2-ssh')  // Upload this in Jenkins
     }
 
     stages {
