@@ -124,3 +124,56 @@ kubectl apply -f ./fastapi-chart
 kubectl get pods
 kubectl get svc
 helm upgrade fastapi-app ./fastapi-chart
+
+
+#branch jenkins-ansible to run and deploy the same app using jenkins and ansible
+
+#Jenkins
+run locally using docker 
+docker run -d -p 9090:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home --name jenkins jenkins/jenkins:lts
+open localhost:9090
+#to get initial admin passowrd 
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+In setup wizard, install suggested plugins and Set up your first admin user.
+Configure the Jenkins URL (usually fine as default: http://localhost:8080 or http://localhost:9090).
+
+#Connect GitHub Repo to Jenkins
+A. Create a GitHub Personal Access Token (PAT)
+Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic).
+Select scopes: repo(all under repo)
+Copy the token 
+
+B. Add the GitHub Token to Jenkins
+Go to Jenkins → Manage Jenkins → Credentials → (global) → Add Credentials.
+Select:
+Kind: Username with password
+Username: your GitHub username
+Password: paste your GitHub token
+ID: github-token (you’ll reference this in Jenkinsfile)
+Save
+
+#Create a Pipeline Job
+A. Create a new job
+From Jenkins Dashboard → New Item → Name it: worldwithweb-pipeline.
+Choose: Pipeline → Click OK.
+
+B. Configure the job
+Under "Pipeline" section:
+Definition: Pipeline script from SCM
+SCM: Git
+Repository URL: https://github.com/naaz-verma/worldwithweb-devops-app.git
+Credentials: choose github-token
+Branch: */jenkins-ansible
+Script Path: Jenkinsfile (here in repo)
+Save it 
+
+#Add EC2 SSH Key in Jenkins
+Go to Jenkins → Manage Jenkins → Credentials → (global) → Add Credentials.
+Select:
+Kind: SSH Username with private key
+ID: ec2-ssh
+Username: ec2-user
+Private Key: Paste content of your .pem file
+Save
+
+Under pipeline name run using build now
