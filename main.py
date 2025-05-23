@@ -6,5 +6,6 @@ app = FastAPI()
 def read_root():
     return {"message": "Hello from DevOps!",
             "new": "Added content",
-            "latest": "add new code"
+            "latest": "add new code",
+            "jenkins": "addded with jenkins pipeline"
             }
