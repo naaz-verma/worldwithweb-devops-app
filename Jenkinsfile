@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+    docker {
+      image 'docker:20.10.24-cli'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
 
     environment {
         EC2_HOST = "65.0.180.57"
