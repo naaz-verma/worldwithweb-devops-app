@@ -129,9 +129,11 @@ helm upgrade fastapi-app ./fastapi-chart
 #branch jenkins-ansible to run and deploy the same app using jenkins and ansible
 
 #Jenkins
-run locally using docker 
-docker run -d -p 9090:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home --name jenkins jenkins/jenkins:lts
+run locally using docker, create Dockerfile.jenkins
+docker build -t jenkins-docker -f Dockerfile.jenkins .
+docker run -d --name jenkins -p 9090:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts
 open localhost:9090
+
 #to get initial admin passowrd 
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 In setup wizard, install suggested plugins and Set up your first admin user.

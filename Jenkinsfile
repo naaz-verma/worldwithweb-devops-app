@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-    docker {
-      image 'docker:20.10.24-cli'
-      args '-v /var/run/docker.sock:/var/run/docker.sock'
-    }
-  }
+    agent any
 
     environment {
         EC2_HOST = "65.0.180.57"
@@ -13,11 +8,6 @@ pipeline {
     }
 
     stages {
-         stage('Docker Version') {
-            steps {
-                sh 'docker version'
-            }
-        }
         stage('Clone Repo') {
             steps {
                 git branch: 'jenkins-ansible',
