@@ -13,6 +13,11 @@ pipeline {
     }
 
     stages {
+         stage('Docker Version') {
+            steps {
+                sh 'docker version'
+            }
+        }
         stage('Clone Repo') {
             steps {
                 git branch: 'jenkins-ansible',
