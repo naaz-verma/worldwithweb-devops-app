@@ -13,4 +13,6 @@ RUN apt-get update && \
 
 RUN groupadd docker && usermod -aG docker jenkins
 
+RUN chmod 666 /var/run/docker.sock || true
+
 USER jenkins
