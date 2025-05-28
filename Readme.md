@@ -1,7 +1,13 @@
-# worldwithweb-devops-app
-
-
-A simple FastAPI app for DevOps hands-on demo.
+# WorldWithWeb DevOps App 🚀
+A hands-on DevOps project built using FastAPI, Docker, GitHub Actions, AWS, Terraform, Kubernetes, and Helm.
+This project serves both as a DevOps teaching tool and a real-world cloud deployment template.
+Tech Stack
+FastAPI — Lightweight Python backend
+Docker — Containerization
+GitHub Actions — CI/CD Pipeline
+AWS EC2 — Hosting backend app
+Terraform — Infrastructure as Code
+Kubernetes (Minikube & Helm) — Orchestration & packaging
 
 ```bash
 #run locally
