@@ -1,0 +1,23 @@
+- name: Deploy FastAPI Docker app
+  hosts: web
+  become: true
+  tasks:
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Run FastAPI container
+      docker_container:
+        name: worldwithweb-devops-app
+        image: ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+        state: started
+        ports:
+          - "8000:8000"
+        restart_policy: always

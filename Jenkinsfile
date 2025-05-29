@@ -1,3 +1,4 @@
+// only jenkins
 pipeline {
     agent any
 
@@ -37,3 +38,53 @@ pipeline {
         }
     }
 }
+
+// using ansible
+
+pipeline {
+    agent any
+
+    environment {
+        EC2_HOST = "65.0.180.57"
+        EC2_USER = "ec2-user"
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'jenkins-ansible',
+                    credentialsId: 'github-token',
+                    url: 'https://github.com/naaz-verma/worldwithweb-devops-app.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t worldwithweb-devops-app .'
+            }
+        }
+
+        stage('Push Image to GHCR') {
+            steps {
+                withCredentials([string(credentialsId: 'ghcr-token', variable: 'GHCR_TOKEN')]) {
+                    sh """
+                        echo $GHCR_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+                        docker tag worldwithweb-devops-app ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+                        docker push ghcr.io/naaz-verma/worldwithweb-devops-app:latest
+                    """
+                }
+            }
+        }
+
+        stage('Deploy with Ansible') {
+            steps {
+                sshagent(['ec2-ssh']) {
+                    sh '''
+                        ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+                    '''
+                }
+            }
+        }
+    }
+}
+
